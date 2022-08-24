@@ -7,7 +7,7 @@ TEMP="/tmp/convert-project-resources.txt"
 IFS='
 '
 
-rm $TEMP
+rm $TEMP 2> /dev/null
 
 cecho () {
 
@@ -89,4 +89,4 @@ cecho "To revert all changes, run " "info"
 cecho "git reset && git clean -f\n" "strong"
 cecho "Done\n" "info"
 
-rm $TEMP
+rm $TEMP 2> /dev/null

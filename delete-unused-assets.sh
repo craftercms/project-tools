@@ -1,8 +1,8 @@
 #!/bin/bash
 
 VERSION=1.0.0
-TEMP1="/tmp/delete-unused-assets-1.txt"
-TEMP2="/tmp/delete-unused-assets-2.txt"
+TEMP1="/tmp/delete-unused-assets-1.txt" 2> /dev/null
+TEMP2="/tmp/delete-unused-assets-2.txt" 2> /dev/null
 IFS='
 '
 
@@ -68,5 +68,5 @@ for i in $( cat $TEMP2 ); do
 	fi
 done
 
-rm $TEMP1
-rm $TEMP2
+rm $TEMP1 2> /dev/null
+rm $TEMP2 2> /dev/null
