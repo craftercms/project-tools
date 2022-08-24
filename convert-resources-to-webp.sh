@@ -7,7 +7,7 @@ TEMP="/tmp/convert-project-resources.txt"
 IFS='
 '
 
-rm $TEMP 2> /dev/null
+rm $TEMP > /dev/null 2>&1
 
 cecho () {
 
@@ -33,6 +33,7 @@ cecho () {
 
 pressAnyKey() {
 	read -n 1 -s -r -p "Press any key to continue"
+	echo " "
 	echo "Processing..."
 }
 
@@ -82,11 +83,11 @@ perl -pi -e "s/<\/site-policy>/   <statement>
    <\/statement>
 <\/site-policy>/g" ./config/studio/site-policy-config.xml
 
-cecho "Site conversion complete. Please use " "info"
+cecho "Project conversion complete. Please use " "info"
 cecho "git diff " "strong"
 cecho "to validate the changes and commit if happy with the updates\n" "info"
 cecho "To revert all changes, run " "info"
 cecho "git reset && git clean -f\n" "strong"
 cecho "Done\n" "info"
 
-rm $TEMP 2> /dev/null
+rm $TEMP > /dev/null 2>&1

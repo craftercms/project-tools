@@ -1,13 +1,13 @@
 #!/bin/bash
 
 VERSION=1.0.0
-TEMP1="/tmp/delete-unused-assets-1.txt" 2> /dev/null
-TEMP2="/tmp/delete-unused-assets-2.txt" 2> /dev/null
+TEMP1="/tmp/delete-unused-assets-1.txt"
+TEMP2="/tmp/delete-unused-assets-2.txt"
 IFS='
 '
 
-rm $TEMP1
-rm $TEMP2
+rm $TEMP1 > /dev/null 2>&1
+rm $TEMP2 > /dev/null 2>&1
 
 cecho () {
 
@@ -33,6 +33,7 @@ cecho () {
 
 pressAnyKey() {
 	read -n 1 -s -r -p "Press any key to continue"
+	echo " "
 	echo "Processing..."
 }
 
@@ -46,7 +47,8 @@ for i in $( cat $TEMP1 ); do
 	if ! grep -Ir $i . > /dev/null; then
 		if ! [[ $i == *keep ]]; then
 			echo $i >> $TEMP2
-			echo Found unused asset: $i
+			cecho "Found unused asset: " "info"
+			cecho "$i\n" "strong"
 		fi
 	fi
 done
@@ -55,7 +57,7 @@ cecho "Please review the assets to be removed\n" "info"
 pressAnyKey
 less $TEMP2
 
-read -p "Remove these assets? (yes/no) " REPLY
+read -p "Continue to asset removal? (yes/no) " REPLY
 if [ "$REPLY" != "yes" ] && [ "$REPLY" != "y" ]; then
     cecho "Canceling asset deletion\n" "strong"
     exit 0
@@ -63,10 +65,19 @@ fi
 
 for i in $( cat $TEMP2 ); do
 	read -p "delete the asset '$i'? (yes/no) " REPLY
-	if [ "$REPLY" != "yes" ] && [ "$REPLY" != "y" ]; then
+	if [ "$REPLY" = "yes" ] || [ "$REPLY" = "y" ]; then
+		cecho "Removing file '$i'\n" "strong"
 		rm $i
 	fi
 done
 
-rm $TEMP1 2> /dev/null
-rm $TEMP2 2> /dev/null
+rm $TEMP1 2>&1  /dev/null
+rm $TEMP2 2>&1  /dev/null
+
+cecho "Asset deletion complete. Please use " "info"
+cecho "git status " "strong"
+cecho "to validate the changes and commit if happy with the updates\n" "info"
+cecho "To revert all changes, run " "info"
+cecho "git reset && git clean -f\n" "strong"
+cecho "Done\n" "info"
+
