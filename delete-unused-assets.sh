@@ -49,8 +49,22 @@ for i in $( cat $TEMP1 ); do
 	fi
 done
 
-#cecho Plea
+cecho "Please review the assets to be removed" "info"
+pressAnyKey
 less $TEMP2
+
+read -p "Remove these assets? (yes/no)" REPLY
+if [ "$REPLY" != "yes" ] && [ "$REPLY" != "y" ]; then
+    cecho "Canceling asset deletion\n" "strong"
+    exit 0
+fi
+
+for i in $( cat $TEMP2 ); do
+	read -p "delete the asset '$i'? (yes/no)" REPLY
+	if [ "$REPLY" != "yes" ] && [ "$REPLY" != "y" ]; then
+		rm $i
+	fi
+done
 
 rm $TEMP1
 rm $TEMP2
