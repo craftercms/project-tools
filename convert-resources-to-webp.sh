@@ -78,7 +78,9 @@ perl -pi -e "s/<\/site-policy>/   <statement>
          <mime-types>*\/*<\/mime-types>
       <\/permitted>
       <denied>
-         <mime-types>image\/svg+xml<\/mime-types>
+         <mime-types>image/png</mime-types>
+         <mime-types>image/jpeg</mime-types>
+         <mime-types>image/gif</mime-types>
       <\/denied>
    <\/statement>
 <\/site-policy>/g" ./config/studio/site-policy-config.xml

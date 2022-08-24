@@ -71,8 +71,8 @@ for i in $( cat $TEMP2 ); do
 	fi
 done
 
-rm $TEMP1 2>&1  /dev/null
-rm $TEMP2 2>&1  /dev/null
+rm $TEMP1 2>&1 /dev/null
+rm $TEMP2 2>&1 /dev/null
 
 cecho "Asset deletion complete. Please use " "info"
 cecho "git status " "strong"
