@@ -33,7 +33,7 @@ cecho () {
 
 pressAnyKey() {
 	read -n 1 -s -r -p "Press any key to continue"
-	echo " "
+	echo "Processing..."
 }
 
 
@@ -44,23 +44,25 @@ pressAnyKey
 find static-assets -type f >> $TEMP1
 for i in $( cat $TEMP1 ); do
 	if ! grep -Ir $i . > /dev/null; then
-		echo $i >> $TEMP2
-		echo Found unused asset: $i
+		if ! [[ $i == *keep ]]; then
+			echo $i >> $TEMP2
+			echo Found unused asset: $i
+		fi
 	fi
 done
 
-cecho "Please review the assets to be removed" "info"
+cecho "Please review the assets to be removed\n" "info"
 pressAnyKey
 less $TEMP2
 
-read -p "Remove these assets? (yes/no)" REPLY
+read -p "Remove these assets? (yes/no) " REPLY
 if [ "$REPLY" != "yes" ] && [ "$REPLY" != "y" ]; then
     cecho "Canceling asset deletion\n" "strong"
     exit 0
 fi
 
 for i in $( cat $TEMP2 ); do
-	read -p "delete the asset '$i'? (yes/no)" REPLY
+	read -p "delete the asset '$i'? (yes/no) " REPLY
 	if [ "$REPLY" != "yes" ] && [ "$REPLY" != "y" ]; then
 		rm $i
 	fi
