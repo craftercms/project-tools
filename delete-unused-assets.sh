@@ -64,11 +64,11 @@ if [ "$REPLY" != "yes" ] && [ "$REPLY" != "y" ]; then
 fi
 
 for i in $( cat $TEMP2 ); do
-	read -p "delete the asset '$i'? (yes/no) " REPLY
-	if [ "$REPLY" = "yes" ] || [ "$REPLY" = "y" ]; then
+	#read -p "delete the asset '$i'? (yes/no) " REPLY
+	#if [ "$REPLY" = "yes" ] || [ "$REPLY" = "y" ]; then
 		cecho "Removing file '$i'\n" "strong"
 		rm $i
-	fi
+	#fi
 done
 
 rm $TEMP1 2>&1 /dev/null
